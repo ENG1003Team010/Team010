@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.indigo-pink.min.css">
+<script src="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<html>
+<body>
+
+
+<center><div id = "getReady"><img src = "getreadya.jpg" style="width:300px;height:400px;" ></div></center><br> 
+<script src="https://maps.google.com/maps/api/js?sensor=false"></script>
+
+<script>
+var per = document.getElementById("demo");
+var getReady = document.getElementById("getReady");
+    
+function getLocation() {
+    navigator.geolocation.getCurrentPosition( showLocation, showError);
+}
+/*
+function removeImg(image) {
+    getReady.parentNode.removeChild(getReady);
+}*/
+    
+function showLocation(location) {
+    latitude = location.coords.latitude;
+    longitude = location.coords.longitude;
+    latlon = new google.maps.LatLng(latitude, longitude)
+    mapholder = document.getElementById('getReady')
+    mapholder.style.height = '400px';
+    mapholder.style.width = '300px';
+
+    var control = {
+    center:latlon,zoom:18,
+    mapTypeId:google.maps.MapTypeId.ROADMAP,
+    mapTypeControl:false,
+    navigationControlOptions:{style:google.maps.NavigationControlStyle.SMALL}
+    }
+    
+    var map = new google.maps.Map(document.getElementById("getReady"), control);
+    var marker = new google.maps.Marker({position:latlon,map:map,title:"Your Current Location"});
+}
+
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            per.innerHTML = "User denied the request for Geolocation."
+            break;
+        case error.POSITION_UNAVAILABLE:
+            per.innerHTML = "Location information is unavailable."
+            break;
+        case error.TIMEOUT:
+            per.innerHTML = "The request to get user location timed out."
+            break;
+        case error.UNKNOWN_ERROR:
+            per.innerHTML = "An unknown error occurred."
+            break;
+    }
+}  
+    
+
+//==================================================================================
+// TRACK LOCATION function
+var trackLat;
+var trackLng;
+var trackLatLng;
+var watchID;
+var track;
+var trackMarkerArray = [];
+var newTrackLatLng;
+var map;
+var image = {url: 'images/red_MarkerH.png'};  
+var startImage = {url: 'images/green_MarkerS.png'};
+var endImage = {url: 'images/blue_MarkerE.png'};
+    
+function trackLocation(){
+    // Add a marker at the start
+    var startMarker = new google.maps.Marker({position: getLocation, map: map, title: 'Start of Route', icon: startImage});
+    
+    // Using watchPosition method
+    watchID = navigator.geolocation.watchPosition(callback,whenError,options);
+    
+    var options = {
+        enableHighAccuracy: false,
+        timeout: 3000,
+        maximumAge: 0
+    }
+    //start();
+}
+
+function whenError(error){
+    alert('code: '    + error.code    + '\n' +
+          'message: ' + error.message + '\n');
+}
+
+function callback(position){
+    trackLat = position.coords.latitude;
+    trackLng = position.coords.longitude;
+    trackMap();
+    
+    addCrumbz(position, map) // add crumbs
+    
+    trackMarkerArray.push(position); // push position objects into an array (saving)
+}
+
+function trackMap(){
+    mapholder = document.getElementById('getReady');
+    mapholder.style.height = '400px';
+    mapholder.style.width = '300px';
+    
+    trackLatLng = {lat: trackLat, lng: trackLng};    
+    //newTrackLatLng = trackMarkerArray.indexOf(trackLatLng.lat);
+    
+    map = new google.maps.Map(document.getElementById("getReady"), {zoom: 18, center: trackLatLng});
+    var trackMarker = new google.maps.Marker({position: trackLatLng, map: map, title: 'Current Location', icon: image});
+   
+}
+
+//==================================================================================
+// ADD MARKERS on specified position
+function addCrumbz(location, map) {
+    var marker = new google.maps.Marker({
+    position: location,
+    map: map,
+    icon: 'red_MarkerH.png'
+  });
+}
+ 
+//==================================================================================
+function Stop(){
+    //ADD STOP FUNCTION HERE!!
+    //When this function runs, it would freeze the values that show speed, distance and time together with //the motion on the map. It doesnt           record this data and a LABEL saying not recording is shown on the top right //corner. 
+    navigator.geolocation.clearWatch(watchID);    
+    
+    // Add a marker at the end
+    var endMarker = new google.maps.Marker({position: trackLatLng, map: map, title: 'End of Route', icon: endImage});
+    
+    stop();
+}
+//==================================================================================
+// Stopwatch
+    // Reference: https://gist.github.com/electricg/4372563
+    var	clsStopwatch = function() {
+		// Private vars
+		var	startAt	= 0;	// Time of last start / resume. (0 if not running)
+		var	lapTime	= 0;	// Time on the clock when last stopped in milliseconds
+
+		var	now	= function() {
+				return (new Date()).getTime(); 
+			}; 
+ 
+		// Public methods
+		// Start or resume
+		this.start = function() {
+				startAt	= startAt ? startAt : now();
+			};
+
+		// Stop or pause
+		this.stop = function() {
+				// If running, update elapsed time otherwise keep it
+				lapTime	= startAt ? lapTime + now() - startAt : lapTime;
+				startAt	= 0; // Paused
+			};
+
+		// Reset
+		this.reset = function() {
+				lapTime = startAt = 0;
+			};
+
+		// Duration
+		this.time = function() {
+				return lapTime + (startAt ? now() - startAt : 0); 
+			};
+	};
+    
+var x = new clsStopwatch();
+var $time;
+var clocktimer;
+
+function pad(num, size) {
+	var s = "0000" + num;
+	return s.substr(s.length - size);
+}
+
+function formatTime(time) {
+	var h = m = s = ms = 0;
+	var newTime = '';
+
+	h = Math.floor( time / (60 * 60 * 1000) );
+	time = time % (60 * 60 * 1000);
+	m = Math.floor( time / (60 * 1000) );
+	time = time % (60 * 1000);
+	s = Math.floor( time / 1000 );
+	ms = time % 1000;
+
+	newTime = pad(h, 2) + ':' + pad(m, 2) + ':' + pad(s, 2) + ':' + pad(ms, 3);
+	return newTime;
+}
+
+function show() {
+	$time = document.getElementById("Time");
+	update();
+}
+
+function update() {
+	$time.innerHTML = formatTime(x.time());
+}
+
+function start() {
+	clocktimer = setInterval("update()", 1);
+	x.start();
+}
+
+function stop() {
+	x.stop();
+	clearInterval(clocktimer);
+}
+
+function reset() {
+	stop();
+	x.reset();
+	update();
+}
+//==================================================================================
+    
+</script>
+<button style="float:right;margin-right:310px; padding-right:10px;" onclick="trackLocation()"  class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--accent mdl-color--green-500"><i class="material-icons">play_arrow</i></button>
+
+                  <!-- STOP BUTTON -->             
+<button style="float:right;margin-right:310px; padding-right:30px;" onclick="Stop()"  class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--accent mdl-color--red-500"><i class="material-icons">stop</i></button>
+
+                  <!-- TIME BOX -->          
+                     <center><body><div style ="display:inline-block;vertical-align:center;"><h3><font color = "white" id = "Time" ><strong>TIME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></font></h3></div>
+                 <div style="display:inline-block;"><style type="text/css">textarea.html-text-box {background-color:CC0000;background-image:url(http://);background-attachment:fixed;border-width:3;border-style:solid;border-color:000000;font-family:Cursive;font-size:16pt;color:000000;}
+input.html-text-box {background-color:ffffff;font-family:Cursive;font-size:16pt;color:000000;}
+</style> <form align = baseline style=display:inline-block  method="post" action="http://"><textarea name="comments" cols="7" rows="1.5" class="html-text-box"></textarea></form></div></body>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</center>
+   
+
+</body>
+</html>
