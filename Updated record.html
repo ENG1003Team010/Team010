@@ -1,0 +1,189 @@
+<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.indigo-pink.min.css">
+<script src="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+ <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Material Design Lite</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
+</head>
+<body background = "runb.jpg"></body>
+<body>
+      
+    <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--drawer mdl-layout--fixed-header">
+      <header class="demo-header mdl-layout__header mdl-color--red mdl-color--red-500 mdl-color-text--white">
+        <div class="mdl-layout__header-row">
+          <div class="mdl-layout-spacer"></div>
+          <span class="mdl-layout-title">Record</span>
+          <div class="mdl-layout-spacer"></div>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+          </div>
+          
+        </div>
+      </header>
+        <div class="demo-drawer mdl-layout__drawer mdl-color--red mdl-color-text--white">
+        <header class="demo-drawer-header">
+          <img src="avatar.gif" class="demo-avatar" style="width:128px;height:128px;">
+          <div class="demo-avatar-dropdown">
+            <span>Cosmosbrain</span>
+            <div class="mdl-layout-spacer"></div>
+        
+          </div>
+        </header>
+  
+<nav class="demo-navigation mdl-navigation mdl-color--white">
+          <a class="mdl-navigation__link" href="launch.html"><i class="mdl-color-text--black material-icons" role="presentation">home</i>Home</a>
+          <a class="mdl-navigation__link" href="view.html"><i class="mdl-color-text--black material-icons" role="presentation">history</i>History</a>
+          <a class="mdl-navigation__link" href="record.html"><i class="mdl-color-text--black material-icons" role="presentation">flag</i>Record</a>
+          <div class="mdl-layout-spacer"></div>
+          <a class="mdl-navigation__link" href="info.html"><i class="mdl-color-text--black material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Instruction</span></a>
+</nav>
+      </div>
+          <body>
+
+              
+<center><div id = "getReady"><img src = "getReadya.jpg" style="width:500px;height:550px;float:center;" ></div></center><br>
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+<script>
+var per = document.getElementById("demo");
+var getReady = document.getElementById("getReady");
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition( showLocation, showError,timer);
+    } else { 
+        per.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function recording(recording){
+    // Requires if else statement
+    // Create function that shows whether the app is recording or not
+    // Below are the 2 situational codes that i have created. Use an if else statement to call one of the codes when the play button is pressed to show that it is recording and to call the other code when the stop button is ressed to show that it is not recording
+    // situate the codes below above line 56.
+    // I have used the first code as a demo to show you how its suppose to look like
+//<body><h2><font color = "green" id = "Recording" style="float:right;margin :0px 0px 0px 1150px; padding-right:0px;">RECORDING</font></h2></body>
+              
+//<body><h2><font color = "red" id = "Not Recording" style="float:right;margin :0px 0px 0px 1150px; padding-right:0px;">NOT RECORDING</font></h2></body>
+}
+    
+    
+function timer(timer){
+    //ADD TIMER FUNCTION HERE!!
+    //This function will have 2 main functions
+    // 1.This function will count to 30 seconds and call upon function 2 every 30 seconds.
+    // 2.This function will require you place a breadcrumb/marker/dotted line for the current location of the user.
+    //DO NOT ALLOW A STACKING OF BREADCRUMBS IF USER STOPS IN ONE SPOT.
+}
+function stop(stoprecord){
+    //ADD STOP FUNCTION HERE!!
+    //When this function runs, it would freeze the values that show speed, distance and time together with //the motion on the map. It doesnt record this data and a LABEL saying not recording is shown on the top right //corner. 
+    
+}
+function save(save){
+    //ADD SAVE FUNCTION HERE!
+    // When this function runs, it will call out a pop up box requesting the user to input a route name.
+    // This will require you to create another button on the pop up box to then save the name of the route to     //local storage. Work with Zhiayun to assign the saved location so that she can acess it in her view page.
+}
+function clear(clear){
+    //ADD clear FUNCTION HERE!
+    // This function clears out all values like speed etc but it doesnt affect the map.
+}
+function showLocation(location) {
+    latitude = location.coords.latitude;
+    longitude = location.coords.longitude;
+    latlon = new google.maps.LatLng(latitude, longitude)
+    mapholder = document.getElementById('getReady')
+    mapholder.style.height = '550px';
+    mapholder.style.width = '500px';
+   
+
+    var control = {
+    center:latlon,zoom:19,
+    mapTypeId:google.maps.MapTypeId.ROADMAP,
+    mapTypeControl:false,
+    navigationControlOptions:{style:google.maps.NavigationControlStyle.SMALL}
+    }
+    
+    var map = new google.maps.Map(document.getElementById("getReady"), control);
+    var marker = new google.maps.Marker({position:latlon,map:map,title:"Your Current Location"});
+}
+
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            per.innerHTML = "User denied the request for Geolocation."
+            break;
+        case error.POSITION_UNAVAILABLE:
+            per.innerHTML = "Location information is unavailable."
+            break;
+        case error.TIMEOUT:
+            per.innerHTML = "The request to get user location timed out."
+            break;
+        case error.UNKNOWN_ERROR:
+            per.innerHTML = "An unknown error occurred."
+            break;
+    }
+}
+    //TEXT BOX 
+</script>
+             
+  
+       
+              <center><body><div style ="display:inline-block;vertical-align:center;"><h3><font color = "white" id = "Speed" ><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SPEED&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></font></h3></div>
+                 <div style="display:inline-block;"><style type="text/css">textarea.html-text-box {background-color:CC0000;background-image:url(http://);background-attachment:fixed;border-width:3;border-style:solid;border-color:000000;font-family:Cursive;font-size:16pt;color:000000;}
+input.html-text-box {background-color:ffffff;font-family:Cursive;font-size:16pt;color:000000;}
+</style> <form align = baseline style=display:inline-block  method="post" action="http://"><textarea name="comments" cols="7" rows="1.5" class="html-text-box"></textarea></form></div>
+              <!-- START BUTTON -->
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div style ="display:inline-block;vertical-align:top;"><button style="width:100px;height:100px;" onclick="getLocation()"  class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--accent mdl-color--green-500"><i class="material-icons">play_arrow</i></button></div>
+              <!-- STOP BUTTON -->             
+&nbsp;&nbsp;&nbsp;&nbsp;<div style ="display:inline-block;vertical-align:top;"><button style="width:100px;height:100px;" onclick="stop()"  class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--accent mdl-color--red-500"><i class="material-icons">stop</i></button></div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</body></center>
+              
+                  
+                 <center><body><div style ="display:inline-block;vertical-align:center;"><h3><font color = "white" id = "Distance" ><strong>DISTANCE&nbsp;</strong></font></h3></div>
+                 <div style="display:inline-block;"><style type="text/css">textarea.html-text-box {background-color:CC0000;background-image:url(http://);background-attachment:fixed;border-width:3;border-style:solid;border-color:000000;font-family:Cursive;font-size:16pt;color:000000;}
+input.html-text-box {background-color:ffffff;font-family:Cursive;font-size:16pt;color:000000;}
+</style> <form align = baseline style=display:inline-block  method="post" action="http://"><textarea name="comments" cols="7" rows="1.5" class="html-text-box"></textarea></form></div></body>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</center>
+              
+                 <center><body><div style ="display:inline-block;vertical-align:center;"><h3><font color = "white" id = "Time" ><strong>TIME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></font></h3></div>
+                 <div style="display:inline-block;"><style type="text/css">textarea.html-text-box {background-color:CC0000;background-image:url(http://);background-attachment:fixed;border-width:3;border-style:solid;border-color:000000;font-family:Cursive;font-size:16pt;color:000000;}
+input.html-text-box {background-color:ffffff;font-family:Cursive;font-size:16pt;color:000000;}
+</style> <form align = baseline style=display:inline-block  method="post" action="http://"><textarea name="comments" cols="7" rows="1.5" class="html-text-box"></textarea></form></div></body>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</center>
+              
+              <!--Calories textbox-->
+              <center><body>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div style ="display:inline-block;vertical-align:center;"><h3><font color = "white" id = "Calories" ><strong>CALORIES&nbsp;</strong></font></h3></div>
+                  
+                 <div style="display:inline-block;"><style type="text/css">textarea.html-text-box {background-color:CC0000;background-image:url(http://);background-attachment:fixed;border-width:3;border-style:solid;border-color:000000;font-family:Cursive;font-size:16pt;color:000000;}
+input.html-text-box {background-color:ffffff;font-family:Cursive;font-size:16pt;color:000000;}
+</style> <form align = baseline style=display:inline-block  method="post" action="http://"><textarea name="comments" cols="7" rows="1.5" class="html-text-box"></textarea></form></div></body>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  
+            <!--GPS Accuracy textbox-->
+              <body><div style ="display:inline-block;vertical-align:center;"><h5><font color = "blue" id = "Accuracy" ><strong>Gps Accuracy&nbsp;</strong></font></h3></div>
+                 <div style="display:inline-block;"><style type="text/css">textarea.html-text-box {background-color:CC0000;background-image:url(http://);background-attachment:fixed;border-width:3;border-style:solid;border-color:000000;font-family:Cursive;font-size:16pt;color:000000;}
+input.html-text-box {background-color:ffffff;font-family:Cursive;font-size:16pt;color:000000;}
+</style> <form align = baseline style=display:inline-block  method="post" action="http://"><textarea name="comments" cols="7" rows="1.5" class="html-text-box"></textarea></form></div></body>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</center>
+              
+               <!-- Calorie Button-->
+             <center><div style ="display:inline-block;vertical-align:center;"><button style="width:150px;height:50px;" onclick="calories()"  class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent mdl-color--red-500">Calories Burnt</button></div><br><br>
+              
+              
+
+<!-- SAVE BUTTON -->
+              <center><body><div style ="display:inline-block;vertical-align:center;"><button style="width:250px;height:50px;" onclick="save()"  class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent mdl-color--red-500">SAVE</button></div>
+                  
+              
+ <!-- CLEAR BUTTON -->
+                  <div style="display:inline-block;"><button style="width:250px;height:50px;" onclick="clear()"  class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent mdl-color--red-500">CLEAR</button></div></body></center>   <br>
+              
+              
